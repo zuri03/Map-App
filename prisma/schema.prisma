@@ -13,8 +13,7 @@ generator client {
 model User {
   id Int @default(autoincrement()) @id
   username String 
-  tasks Task[]
-
+  tasks Task[] 
 }
 
 model Task {
@@ -23,5 +22,5 @@ model Task {
   userId Int
   dueDate DateTime?
   createdDate DateTime @default(now()) @map(name: "created_date")
-
+  level String
 }

@@ -8,9 +8,9 @@ type Data = {
 
 export default async (request: NextApiRequest, response: NextApiResponse<Data>) => {
 
-    let userName = request.body.userName;
+    let userName: string = request.body.username;
 
-    console.log(request.body.userName);
+    console.log(request.body.username);
 
     if(!userName || userName === "") response.status(400).json({res: 'false'});
 
@@ -24,7 +24,7 @@ export default async (request: NextApiRequest, response: NextApiResponse<Data>) 
           if(user.username === userName) userExists = 'true';
         });
         console.log(`function return ${userExists}`);
-        response.status(200).json({res: userExists})
+        response.status(200).json({res: userExists});
     } 
     else response.status(500).json({res: "NO DATA IN DATABASE"})
 }
