@@ -5,6 +5,18 @@ type Data = {
   res: string
 }
 
-export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(200).json({ res: 'HERE IS YOUR FUCKING DATA' })
+const getUserTasks = async (username: string): Promise<any> => {
+
+}
+export default async (request: NextApiRequest, response: NextApiResponse<Data>) => {
+
+  let userName: string = request.body.username;
+  let method: string = request.body.method;
+
+  if(method === 'getTasks') {
+    let userTasks = await getUserTasks(userName);
+
+    response.status(200).send({res: userTasks});
+  }
+  
 }

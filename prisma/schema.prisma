@@ -20,7 +20,9 @@ model Task {
   id Int @default(autoincrement()) @id
   user User @relation(fields: [userId], references: [id])
   userId Int
+  title String 
+  description String
   dueDate DateTime?
   createdDate DateTime @default(now()) @map(name: "created_date")
-  level String
+  urgency Int
 }

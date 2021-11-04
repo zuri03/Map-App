@@ -19,14 +19,15 @@ export default async (request: NextApiRequest, response: NextApiResponse<Data>) 
     console.log(users);
 
     if(users && users.length !== 0){
+      
         let userExists = 'false';
         users.forEach((user: databaseObject) => {
           if(user.username === userName) userExists = 'true';
         });
         console.log(`function return ${userExists}`);
         response.status(200).json({res: userExists});
-    } 
-    else response.status(500).json({res: "NO DATA IN DATABASE"})
+
+    } else response.status(500).json({res: "NO DATA IN DATABASE"})
 }
 
 interface databaseObject {

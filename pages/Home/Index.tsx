@@ -21,13 +21,6 @@ import PropTypes from 'prop-types';
 import Router from 'next/router';
 import {useEffect, useState} from 'react';
 
-
-
-const submitUserInput = (username: string) => {
-  //loginUser 
-  //window.location.reload();
-}
-
 const WrongCredentials = () => {
   return (<p>Incorrect Username</p>);
 }
@@ -39,6 +32,25 @@ export default function Home(props: propTypes){
   const [isLoggedIn, setisLoggedIn]: [boolean, Function] = useState(false);
   const [incorrectCredentials, setincorrectCredentials]: [boolean, Function] = useState(false);
   const [serverError, setserverError]: [boolean, Function] = useState(false);
+
+  React.useEffect(() => {
+    if(isLoggedIn){
+      async function getUserTasks() {
+        const response = await fetch('/api/Home', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({'method': 'getTasks', 'username': username})
+        });
+        return response;
+      }
+      
+      let serverResponse = getUserTasks();
+  
+      serverResponse.then(res => { console.log(res); return res.json(); }).then(json => console.log(json));
+    }
+  });
 
   let username = "";
   const checkCredentials = async () => {
@@ -57,6 +69,18 @@ export default function Home(props: propTypes){
 
     if(json.res === 'false') setincorrectCredentials(true);
     else setisLoggedIn(true);
+  }
+
+  const createUser = async () => {
+
+    const response = await fetch('/api/Home/CreateUser', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'username': username})
+    });
+    if(response.status === 200) setisLoggedIn(true);
   }
 
   if(!isLoggedIn) {
@@ -91,7 +115,10 @@ export default function Home(props: propTypes){
             </div>
             <div style={{display: 'flex', justifyContent: 'center'}}>
               <Button type="submit" variant="contained" color="success" onClick={checkCredentials}>
-                Sign Up
+                Login
+              </Button>
+              <Button type="submit" variant="contained" color="success" onClick={createUser}>
+                Create Account
               </Button>
             </div>
             <div style={{display: 'flex', justifyContent: 'center'}}>
